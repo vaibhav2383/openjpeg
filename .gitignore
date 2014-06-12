@@ -1,17 +1,30 @@
-# Ignore files and directories made by `cmake .`.
-CMakeFiles/
-Makefile
-cmake_install.cmake
-/CMakeCache.txt
-/CPackConfig.cmake
-/CPackSourceConfig.cmake
-/CTestCustom.cmake
-/LICENSE.txt
-/OpenJPEGConfig.cmake
-/libopenjp2.pc
-/src/bin/common/opj_apps_config.h
-/src/lib/openjp2/opj_config.h
-/src/lib/openjp2/opj_config_private.h
 
-# Ignore directories made by `make`.
-/bin/
+#ignore thumbnails created by windows
+Thumbs.db
+#Ignore files build by Visual Studio
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+.metadata
