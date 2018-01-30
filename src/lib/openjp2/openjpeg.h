@@ -4,6 +4,7 @@
 * party and contributor rights, including patent rights, and no such rights
 * are granted under this license.
 *
+* Copyright (c) 2014, Aaron Boxer
 * Copyright (c) 2002-2014, Universite catholique de Louvain (UCL), Belgium
 * Copyright (c) 2002-2014, Professor Benoit Macq
 * Copyright (c) 2001-2003, David Janssens
@@ -571,6 +572,26 @@ typedef struct opj_dparameters {
 
 } opj_dparameters_t;
 
+typedef struct opj_buffer_info
+{
+    OPJ_BYTE *buf;
+	OPJ_BYTE *cur;
+    OPJ_SIZE_T len;
+} opj_buffer_info_t;
+
+
+typedef struct opj_segmented_file_info
+{
+	char infile[OPJ_PATH_LEN];
+    FILE* p_file;
+	OPJ_SIZE_T dataLength;
+	OPJ_SIZE_T dataRead;
+	int numSegmentsMinusOne;
+	OPJ_OFF_T* p_segmentPositionsList;
+	OPJ_SIZE_T* p_segmentLengths;
+	OPJ_OFF_T curPos;
+	int curSegment;
+} opj_file_info_t;
 
 /**
  * JPEG2000 codec V2.
@@ -1154,6 +1175,13 @@ OPJ_API opj_stream_t* OPJ_CALLCONV opj_stream_create(OPJ_SIZE_T p_buffer_size,
 OPJ_API void OPJ_CALLCONV opj_stream_destroy(opj_stream_t* p_stream);
 
 /**
+ * Sets the given function to be used as a free function.
+ * @param		p_stream	the stream to modify
+ * @param		p_function	the function to use as a free function.
+*/
+OPJ_API void OPJ_CALLCONV opj_stream_set_free_function(opj_stream_t* p_stream, opj_stream_free_user_data_fn p_function);
+
+/**
  * Sets the given function to be used as a read function.
  * @param       p_stream    the stream to modify
  * @param       p_function  the function to use a read function.
@@ -1211,6 +1239,9 @@ OPJ_API void OPJ_CALLCONV opj_stream_set_user_data_length(
 OPJ_API opj_stream_t* OPJ_CALLCONV opj_stream_create_default_file_stream(
     const char *fname, OPJ_BOOL p_is_read_stream);
 
+OPJ_API opj_stream_t* OPJ_CALLCONV opj_stream_create_default_file_stream_v4 (
+	opj_file_info_t* p_file_info, OPJ_BOOL p_is_read_stream);
+
 /** Create a stream from a file identified with its filename with a specific buffer size
  * @param fname             the filename of the file to stream
  * @param p_buffer_size     size of the chunk used to stream
@@ -1220,6 +1251,20 @@ OPJ_API opj_stream_t* OPJ_CALLCONV opj_stream_create_file_stream(
     const char *fname,
     OPJ_SIZE_T p_buffer_size,
     OPJ_BOOL p_is_read_stream);
+
+
+OPJ_API opj_stream_t* OPJ_CALLCONV opj_stream_create_file_stream_v4 (
+	opj_file_info_t* p_file_info,
+	OPJ_SIZE_T p_buffer_size,
+	OPJ_BOOL p_is_read_stream);
+
+OPJ_API opj_stream_t* OPJ_CALLCONV opj_stream_create_buffer_stream(
+	opj_buffer_info_t* p_source_buffer,
+	OPJ_BOOL p_is_read_stream);
+
+OPJ_API opj_stream_t* OPJ_CALLCONV opj_stream_create_segmented_file_stream(
+	opj_file_info_t* p_source_file, 
+	OPJ_BOOL p_is_read_stream);
 
 /*
 ==========================================================
